@@ -6,6 +6,7 @@ class Word {
 		this.partOfSpeech = partOfSpeech
 	}
 }
+// Nice use of a class here!
 
 // partOfSpeech: measureWord
 const yiGe = new Word('一个', 'one', 'yí gè', 'measureWord')
@@ -18,6 +19,7 @@ const qiGe = new Word('七个', 'seven', 'qī gè', 'measureWord')
 const baGe = new Word('八个', 'eight', 'bā gè', 'measureWord')
 const jiuGe = new Word('九个', 'nine', 'jiǔ gè', 'measureWord')
 const shiGe = new Word('十个', 'ten', 'shí gè', 'measureWord')
+// Talked more about this in script.js, but consider putting the parts of speech into their own arrays to make data easier to manipulate.
 
 // partOfSpeech: subject
 const wo = new Word('我', 'I', 'wǒ', 'subject')

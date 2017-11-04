@@ -2,6 +2,7 @@ html,
 body {
 	color: #3a3a3b;
 	font-family: 'Karla', sans-serif;
+	/*Consider using an additional backup font between `Karla` and `san-serif`*/
 	height: 100%;
 }
 
@@ -64,6 +65,8 @@ header button:hover {
 
 .site-logo {
 	font-size: 2vw;
+	/*I think it makes sense to make the font-size here fixed, since the title is the only thing that is changing sizes when the page gets smaller*/
+	/*Also, consider calling this `title` instead or even better, just using a heading*/
 	font-weight: 700;
 	margin-left: auto;
 	margin-right: auto;
@@ -211,3 +214,9 @@ main {
 	color: #fff;
 	background: #cd6155;
 }
+
+/*Good job keeping things well organized and easy to read.  You've chosen good semantic class/id names to make things intuitive to understand.  Typically with CSS you'll want to go from least specific at the top to most specific at the bottom, so (elements, then classes, then ids).  However, since you've provided commented titles, this is also an acceptable way to do it.  For larger CSS files, and yours is starting to verge in that territory, consider breaking up the sections (header, main, wordbank, etc) into their own seperate CSS files.*/
+
+/*Sizing is good to a point.  Nice work making use of flex-box.  For more dynamic sizing, look into using *media queries* that can reformat and apply different CSS rules when your page gets smaller than a certain size.  https://www.w3schools.com/css/css_rwd_mediaqueries.asp  This could really help your page when it the screen size becomes small. */
+
+/*Aesthetically speaking, you've done a great job choosing the color palette, using rounded buttons, making use of `hover`, and chosing suitable font styling and size.  Consider adding a small transition time when user hovers over a button.  Page is pleasing to look at, easy to understand what's going on, and not too busy. */

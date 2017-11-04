@@ -1,4 +1,5 @@
 $('document').ready(function() {
+	// You dont really need document.ready here since your script file is already at the bottom of your html
 	let gameBoard = $('#game-board')
 	let wordBank = $('#word-bank')
 	let startPageEl = $('.start-page')
@@ -6,7 +7,9 @@ $('document').ready(function() {
 	let currentLevel = $('#current-level')
 	let scoreEl = $('#score')
 	let score = 0
+	let timeToGuess // Declare this at the top to avoid console error when you click `Start Page`
 	const words = []
+	// Good job defining your variables at the top of the page
 
 	words.push(yiGe)
 	words.push(liangGe)
@@ -58,6 +61,8 @@ $('document').ready(function() {
 	words.push(fanQie)
 	words.push(huangGua)
 	words.push(hanBaoBao)
+	// Couple thoughts here.  One, consider moving this ^ into it's own seperate js file, or just into word.js
+	// Also, in word.js, you could put all of the words in the different parts of speech into their own arrays (subjects, verbs, etc).  Then you could just run a forEach over each of those arrays, pushing each of the words into the `words` array.
 
 	const measureWords = words.filter(word => {
 		return word.partOfSpeech === 'measureWord'
@@ -78,6 +83,7 @@ $('document').ready(function() {
 	const adjectives = words.filter(word => {
 		return word.partOfSpeech === 'adjective'
 	})
+	// Good use of filter, though I think a lot of this could be avoided if you just put each of the parts of speech words in their own arrays to begin with.
 
 	let level1 = {
 		level: 1,
@@ -106,11 +112,12 @@ $('document').ready(function() {
 	startPage()
 
 	function startPage() {
-		gameBoard.append(`
-		<div class="welcome-message">
-			<p>Test your memory skills while learning Chinese!</p>
-			<p>Select a level to start the game.</p>
-		</div>`)
+		gameBoard.append(
+			`<div class="welcome-message">
+				<p>Test your memory skills while learning Chinese!</p>
+				<p>Select a level to start the game.</p>
+			</div>`
+		)
 
 		wordBank.append(
 			`<div class="level-buttons">
@@ -120,12 +127,10 @@ $('document').ready(function() {
 			</div>`
 		)
 
-		$('.level-buttons')
-			.children()
-			.on('click', e => {
-				let userLevel = e.target.id
-				game(userLevel)
-			})
+		$('.level-buttons').children().on('click', e => {
+			let userLevel = e.target.id
+			game(userLevel)
+		})
 	}
 
 	function game(userLevel) {
@@ -141,6 +146,7 @@ $('document').ready(function() {
 				break
 		}
 	}
+	// Good use of swtich statements
 
 	function startLevel(level) {
 		currentLevel.text(`Level: ${level.level}`)
@@ -159,11 +165,9 @@ $('document').ready(function() {
 	function createGameBoard(level) {
 		for (let i = 0; i < level.pos.length; i++) {
 			gameBoard.append(`<div class="the-sentence-pos"></div>`)
-			$('.the-sentence-pos')
-				.eq([i])
-				.append(
-					`<div class="the-sentence-pos-label">${level.posGBLabel[i]}</div>`
-				)
+			$('.the-sentence-pos').eq([i]).append(
+				`<div class="the-sentence-pos-label">${level.posGBLabel[i]}</div>`
+			)
 		}
 	}
 
@@ -171,6 +175,7 @@ $('document').ready(function() {
 		for (let i = 0; i < level.pos.length; i++) {
 			let ptOfSpeech = level.posProperty[i]
 			theSentence[ptOfSpeech] = getWord(level.pos[i])
+			// Consider declaring `theSentence` as a global variable at the top of the page.  Also I think renaming it something like `currentSentance` or something like that might make a little more sense.
 		}
 	}
 
@@ -182,13 +187,14 @@ $('document').ready(function() {
 	function displayTheSentence(level) {
 		for (let i = 0; i < level.pos.length; i++) {
 			let ptOfSpeech = level.posProperty[i]
-			$('.the-sentence-pos').eq([i]).prepend(`
-				<div class="word-tile">
+			$('.the-sentence-pos').eq([i]).prepend(
+				`<div class="word-tile">
 					<span class="word-info word-pinyin">${theSentence[ptOfSpeech]
 						.pinyin}</span>
 					<span class="word-info word-cn">${theSentence[ptOfSpeech].cn}</span>
 					<span class="word-info word-en">${theSentence[ptOfSpeech].en}</span>
-				</div>`)
+				</div>`
+			)
 		}
 	}
 
@@ -209,10 +215,11 @@ $('document').ready(function() {
 
 	function createWordBank(level) {
 		for (let i = 0; i < level.pos.length; i++) {
-			wordBank.append(`
-			<div class="wb-pos">
-				<div class="wb-pos-label">${level.posWBLabel[i]}</div>
-			</div>`)
+			wordBank.append(
+				`<div class="wb-pos">
+					<div class="wb-pos-label">${level.posWBLabel[i]}</div>
+				</div>`
+			)
 			$('.wb-pos-label').append('<div class="wb-tiles"></div>')
 		}
 
@@ -239,8 +246,7 @@ $('document').ready(function() {
 			window['wb' + ptOfSpeech][0] = theRightWord
 			window['shuffleWb' + ptOfSpeech] = level.pos[i].slice()
 			window['shuffleWb' + ptOfSpeech].splice(
-				window['shuffleWb' + ptOfSpeech].indexOf(theRightWord),
-				1
+				window['shuffleWb' + ptOfSpeech].indexOf(theRightWord), 1
 			)
 
 			getRandomWords(window['shuffleWb' + ptOfSpeech], 3)
@@ -255,6 +261,7 @@ $('document').ready(function() {
 		}
 		displayWBTiles(level)
 	}
+	// Hmm, you shouldn't need to read or write anything on the window object.  Keep your current wordbank in your JS file and update it for each question.
 
 	// reference: https://stackoverflow.com/questions/11935175/sampling-a-random-subset-from-an-array
 	function getRandomWords(array, size) {
@@ -324,6 +331,7 @@ $('document').ready(function() {
 			})
 		}
 	}
+	// Consider breaking userGuess up into 2 or 3 smaller more specific funtions
 
 	function checkSentence(level) {
 		if (theSentence.isEqual(userSentence)) {
@@ -366,3 +374,16 @@ $('document').ready(function() {
 		scoreEl.text(0)
 	})
 })
+
+
+// Great job on the project!  Your approach to functional programming is very solid and well organized.  Most functions are small and precise.  There are a few spots that I mentioned above that could improve the quality of your code, the biggest ones being...
+// - Pushing the individual words into an array could be done more systematically and logic could really be abstracted to another file.
+// - You shouldn't need to manipulate or read data through the window object.  Keep data local and update the page through HTML as needed.
+
+// Here are a few other suggestions/features to make moving forward...
+// - Something to happen when a user makes an incorect guess, or a `next question` button (If I have no idea what the sentence is on level 3, the only way to move forward is by guessing a ton of words)
+// - Maybe a submit button for each sentence
+// - Have the timer count down from 5 to 0
+// - Change `Start Page` button to `Start Menu` or something like that.
+
+// Overall this is a very strong project and you really went above and beyond.  I can see something like serving a real need in the real word.  Great job!

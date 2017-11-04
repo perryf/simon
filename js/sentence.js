@@ -22,6 +22,7 @@ class Sentence {
 	checkLevelThreeSentence() {
 		return this.checkLevelTwoSentence() && userSentence.adjective != null
 	}
+	// Nice way of keeping things concise! ^
 
 	isEqual(userSentence) {
 		let correct = false
@@ -53,3 +54,6 @@ class Sentence {
 
 let theSentence = new Sentence()
 let userSentence = new Sentence()
+// Declare these in the script.js file to make script.js easier to follow along with
+
+// Great use of classes here.  Methods are well defined.  You could arguably abstract some of the isEqual method into smaller more defined methods, but great job overall here!
